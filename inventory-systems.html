@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inventory Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .hidden { display: none; }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+    .form-box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 Login Section -->
+  <div id="loginSection" class="form-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter username" required>
+    <input type="password" id="password" placeholder="Enter password" required>
+    <button onclick="checkLogin()">Login</button>
+    <p id="loginMessage" style="color: red; font-weight: bold;"></p>
+  </div>
+
+  <!-- 📝 Inventory Form Section (Hidden initially) -->
+  <div id="formSection" class="form-box hidden">
+    <h2>Inventory Submission</h2>
+    <form id="inventoryForm">
+      <label>Name</label>
+      <input type="text" name="name" required>
+
+      <label>Department</label>
+      <select name="department" required>
+        <option value="">Select Department</option>
+        <option>Administration</option>
+        <option>Finance</option>
+        <option>HR</option>
+        <option>IT</option>
+        <option>Sales</option>
+        <option>Marketing</option>
+        <option>Logistics</option>
+        <option>Operations</option>
+        <option>Support</option>
+        <option>R&D</option>
+      </select>
+
+      <label>Device</label>
+      <select name="device" required>
+        <option value="">Select Device</option>
+        <option>Laptop</option>
+        <option>Desktop</option>
+        <option>Monitor</option>
+        <option>Keyboard</option>
+        <option>Mouse</option>
+        <option>Printer</option>
+        <option>Projector</option>
+        <option>Tablet</option>
+        <option>Mobile Phone</option>
+        <option>Router</option>
+        <option>Server</option>
+        <option>External Drive</option>
+      </select>
+
+      <label>Inventory Number</label>
+      <input type="text" name="inventory" required>
+
+      <label>Serial Number</label>
+      <input type="text" name="serial" required>
+
+      <label>Maker</label>
+      <select name="maker" required>
+        <option value="">Select Maker</option>
+        <option>Dell</option>
+        <option>HP</option>
+        <option>Lenovo</option>
+        <option>Apple</option>
+        <option>Acer</option>
+        <option>Asus</option>
+        <option>Samsung</option>
+        <option>Microsoft</option>
+        <option>Cisco</option>
+        <option>Canon</option>
+        <option>Logitech</option>
+        <option>LG</option>
+      </select>
+
+      <button type="submit">Submit</button>
+      <div id="submitMessage" style="margin-top: 20px; font-weight: bold;"></div>
+    </form>
+  </div>
+
+  <script>
+    // Replace these with your desired username & password
+    const VALID_USERNAME = "gajendranb1981@gmail.com";
+    const VALID_PASSWORD = "zyx";
+
+    function checkLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("loginMessage");
+
+      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("formSection").classList.remove("hidden");
+      } else {
+        message.textContent = "Invalid username or password!";
+      }
+    }
+
+    // Submit inventory form to Google Apps Script
+    const form = document.getElementById('inventoryForm');
+    const submitMessage = document.getElementById('submitMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      fetch("https://script.google.com/macros/s/AKfycbxmVw4woYPtt5b9i78ude1Ok7D8KOj_DjzwkYIOT0ARmlRHXazaInvhgmg916xTvoTW/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(text => {
+        submitMessage.textContent = text;
+        if (text.includes("Success")) {
+          form.reset();
+          submitMessage.style.color = "green";
+        } else {
+          submitMessage.style.color = "red";
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        submitMessage.textContent = "Error submitting form.";
+        submitMessage.style.color = "red";
+      });
+    });
+  </script>
+
+</body>
+</html>
