@@ -4,11 +4,16 @@
   <title>Inventory Management System</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-image: url('');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(4px);
+}
     .hidden { display: none; }
     input, select, button {
       width: 100%;
@@ -22,12 +27,12 @@
       color: white;
       border: none;
     }
-    .form-box {
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 6px;
-      background-color: #f9f9f9;
-    }
+   .form-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+}
   </style>
 </head>
 <body>
@@ -110,8 +115,8 @@
 
   <script>
     // Replace these with your desired username & password
-    const VALID_USERNAME = "gajendranb1981@gmail.com";
-    const VALID_PASSWORD = "zyx";
+    const VALID_USERNAME = 'gajendranb1981@gmail.com';
+    const VALID_PASSWORD = 'zyx';
 
     function checkLogin() {
       const username = document.getElementById("username").value;
