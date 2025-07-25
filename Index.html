@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventory Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background-color: #fff;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #efefef;
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Inventory Management System</h2>
+  <table id="inventoryTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Device</th>
+        <th>Inventory Number</th>
+        <th>Serial Number</th>
+        <th>Maker</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be inserted here -->
+    </tbody>
+  </table>
+  <p class="error" id="errorMsg"></p>
+
+  <script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtMPTwECGLRhiEF0KYxOzn1obUKS_5lH1a6RUXb2PQl8zYa3zrp5No0wBGwh_sRA/pub?output=csv'; // replace with your actual published CSV link
+
+    fetch(csvUrl)
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.text();
+      })
+      .then(csv => {
+        const rows = csv.trim().split('\n');
+        const tableBody = document.querySelector("#inventoryTable tbody");
+        for (let i = 1; i < rows.length; i++) {
+          const columns = rows[i].split(',');
+          const tr = document.createElement("tr");
+          columns.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = col;
+            tr.appendChild(td);
+          });
+          tableBody.appendChild(tr);
+        }
+      })
+      .catch(err => {
+        document.getElementById("errorMsg").textContent = "Failed to load data. Please check your sheet settings.";
+        console.error(err);
+      });
+  </script>
+
+</body>
+</html>
